@@ -3,22 +3,24 @@
 	"id": "crosshairaddons",
 	"version": "${version}",
 	"name": "Crosshair Addons",
-	"description": "Addons to the player's crosshair.",
+	"description": "Provides customizable icons around the crosshair when certain conditions are met",
 	"authors": [
-		"Walksy"
+    "Walksy"
 	],
 	"contact": {
-
+    "issues": "https://github.com/Walksy/CrosshairAddons-PublicVersion/issues",
+    "sources": "https://github.com/Walksy/CrosshairAddons-PublicVersion",
+    "homepage": "https://discord.com/invite/zeu7uNuBWY"
 	},
 	"license": "MIT",
-	"icon": "assets/crosshairaddons/icon.png",
+	"icon": "assets/walksy/icon.png",
 	"environment": "client",
 	"entrypoints": {
 		"main": [
       "walksy.crosshairaddons.CrosshairAddons"
 		],
-    "modmenu": [
-      "walksy.crosshairaddons.config.ModMenuIntegration"
+    "walksylib": [
+      "walksy.crosshairaddons.config.WalksyLibIntegration"
     ]
 	},
 	"mixins": [
@@ -28,6 +30,7 @@
 		"fabricloader": "*",
 		"minecraft": "*",
 		"java": ">=17",
-		"fabric-api": "*"
-	}
+		"fabric-api": "*",
+    "walksylib": ">=1.0.3"
+  }
 }

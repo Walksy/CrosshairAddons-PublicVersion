@@ -3,10 +3,12 @@
 	"package": "walksy.crosshairaddons.mixin",
 	"compatibilityLevel": "JAVA_17",
 	"client": [
-		"GameRendererMixin",
-		"ClientPlayerEntityMixin",
-		"ClientPlayNetworkHandlerMixin",
-		"DrawContextMixin"
+		"MinecraftMixin",
+		"ClientPacketListenerMixin",
+      "MultiPlayerGameModeMixin",
+    "LivingEntityMixin",
+		"GuiGraphicsExtractorMixin",
+    "GameRendererMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

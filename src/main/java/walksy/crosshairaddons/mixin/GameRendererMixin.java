@@ -1,39 +1,24 @@
 package walksy.crosshairaddons.mixin;
 
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.hud.InGameHud;
-import net.minecraft.client.option.GameOptions;
-import net.minecraft.client.render.BufferBuilderStorage;
-import net.minecraft.client.render.GameRenderer;
-import net.minecraft.client.render.RenderTickCounter;
-import org.spongepowered.asm.mixin.Final;
+import net.minecraft.client.DeltaTracker;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.util.profiling.ProfilerFiller;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
-import walksy.crosshairaddons.manager.ConfigManager;
-import walksy.crosshairaddons.manager.CrosshairRendererManager;
+import walksy.crosshairaddons.config.Config;
+import walksy.crosshairaddons.graphics.CrosshairExtractor;
 
-@Mixin(GameRenderer.class)
-public abstract class GameRendererMixin {
+@Mixin(value={GameRenderer.class})
+public class GameRendererMixin {
 
-    @Shadow
-    @Final
-    MinecraftClient client;
-
-    @Shadow
-    @Final
-    private BufferBuilderStorage buffers;
-
-    @Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/profiler/Profiler;swap(Ljava/lang/String;)V"))
-    public void onRender(RenderTickCounter tickCounter, boolean tick, CallbackInfo ci)
-    {
-        if (!ConfigManager.modEnabled) return;
-        DrawContext drawContext = new DrawContext(this.client, this.buffers.getEntityVertexConsumers());
-        CrosshairRendererManager.INSTANCE.renderCrosshair(drawContext);
+    @Inject(at={@At(value="CONSTANT", args={"stringValue=inGameGui"})}, method={"extractGui"}, locals = LocalCapture.CAPTURE_FAILSOFT)
+    private void render(DeltaTracker deltaTracker, boolean shouldRenderLevel, boolean resourcesLoaded, CallbackInfo ci, ProfilerFiller profiler, int xMouse, int yMouse, GuiGraphicsExtractor graphics) {
+        if (!Config.modEnabled) return;
+        CrosshairExtractor crosshair = new CrosshairExtractor();
+        crosshair.extract(graphics);
     }
 }
