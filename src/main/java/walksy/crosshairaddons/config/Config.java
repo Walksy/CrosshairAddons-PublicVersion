@@ -39,7 +39,7 @@ public class Config implements WalksyLibConfig {
         .set(9, 10).set(10, 10)
         .set(4, 9)
         .set(10, 9)
-        .build()).offset(-0.5, 0);
+        .build()).offset(0, 0);
 
     public static boolean elytraAddonEnabled = true;
     public static PixelGridAnimation elytraAddon = new PixelGridAnimation(PixelGrid.create()
@@ -56,7 +56,7 @@ public class Config implements WalksyLibConfig {
         .set(11, 3).set(11, 10).set(11, 11)
         .set(12, 3).set(12, 8).set(12, 9)
         .set(13, 4).set(13, 5).set(13, 6).set(13, 7)
-        .build()).offset(-0.5, 11);
+        .build()).offset(0, 11);
 
     public static boolean hitmarkerAddonEnabled = true;
     public static boolean hitmarkerToggleOnAttack = false;
@@ -69,7 +69,7 @@ public class Config implements WalksyLibConfig {
         .set(5, 9).set(9, 9)
         .set(4, 10).set(10, 10)
         .set(3, 11).set(11, 11)
-        .build()).offset(-0.5, 0);
+        .build()).offset(0, 0);
 
     public static boolean shieldBreakAddonEnabled = false;
     public static boolean shieldIndicatorEnabled = false;
@@ -126,7 +126,7 @@ public class Config implements WalksyLibConfig {
             .set(1, 11)
             .set(12, 12)
             .build()
-    ).offset(-0.5, 8.5).animationSpeed(17);
+    ).offset(0, 8.5).animationSpeed(17);
 
 
     public static PixelGridAnimation shieldIndicatorAddon = new PixelGridAnimation(PixelGrid.create()
@@ -138,7 +138,7 @@ public class Config implements WalksyLibConfig {
         .set(4, 10).set(10, 10)
         .set(5, 11).set(9, 11)
         .set(6, 12).set(7, 12).set(8, 12)
-        .build()).offset(-0.5, 8.5);
+        .build()).offset(0, 8.5);
 
 
     public static void tick() {
@@ -319,7 +319,7 @@ public class Config implements WalksyLibConfig {
     public LocalConfig define() {
         CrosshairAddons.setupAddons();
         return LocalConfig.createBuilder("Crosshair Addons")
-                .path(PathUtils.ofConfigDir("crosshairaddonsv2"))
+                .path(PathUtils.ofConfigDir("crosshairaddons"))
                 .onSave(CrosshairAddons.getStateManager()::updateCachedEntityTypes)
                 .category(generalCategory)
                 .category(addonsCategory)
