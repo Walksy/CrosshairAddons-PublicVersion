@@ -20,12 +20,4 @@ public class ClientPacketListenerMixin {
             CrosshairAddons.getStateManager().onArrowHit();
         }
     }
-
-    @Inject(method = "handleSoundEvent", at = @At("HEAD"))
-    public void onSound(ClientboundSoundPacket packet, CallbackInfo ci) {
-        if (!Config.modEnabled) return;
-        if (packet.getSound().getRegisteredName().toLowerCase().contains("shield.break")) {
-            CrosshairAddons.getStateManager().handleBreakPacket(packet.getX(), packet.getY(), packet.getZ());
-        }
-    }
 }

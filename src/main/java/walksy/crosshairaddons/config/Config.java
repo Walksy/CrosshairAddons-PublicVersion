@@ -73,7 +73,6 @@ public class Config implements WalksyLibConfig {
 
     public static boolean shieldBreakAddonEnabled = false;
     public static boolean shieldIndicatorEnabled = false;
-    public static boolean shieldIndicatorFactorDelay = true;
     public static boolean shieldBreakStopOnAnimationEnd = true;
     public static int shieldBreakDuration = 15;
     public static PixelGridAnimation shieldBreakAddon = new PixelGridAnimation(
@@ -140,13 +139,6 @@ public class Config implements WalksyLibConfig {
         .set(6, 12).set(7, 12).set(8, 12)
         .build()).offset(0, 8.5);
 
-
-    public static void tick() {
-        elytraAddon.tick();
-        hitmarkerAddon.tick();
-        entityIndicatorAddon.tick();
-        shieldBreakAddon.tick();
-    }
 
     /**
      * General Category
@@ -265,11 +257,6 @@ public class Config implements WalksyLibConfig {
         .availability(() -> modEnabled, "Requires 'Mod Enabled' to be enabled")
         .build();
 
-    private final Option<Boolean> shieldIndicatorFactorDelayOption = BooleanOption.createBuilder("Shield Indicator Factor Delay", () -> shieldIndicatorFactorDelay, shieldIndicatorFactorDelay, newValue -> shieldIndicatorFactorDelay = newValue)
-        .description(OptionDescription.ofOrderedString(() -> "Factors in the 5 tick delay of the opponent's shield to determine whether the indicator should show or not"))
-        .availability(() -> modEnabled && shieldIndicatorEnabled, "Requires 'Mod Enabled & Shield Indicator Addon Enabled' to be enabled")
-        .build();
-
     private final Option<PixelGridAnimation> shieldIndicatorAddonOption = PixelGridAnimationOption.createBuilder("Shield Indicator Addon Icon", () -> shieldIndicatorAddon, shieldIndicatorAddon, newValue -> shieldIndicatorAddon = newValue)
         .description(OptionDescription.ofOrderedString(() -> "Icon animation for shield indicator"))
         .availability(() -> modEnabled && shieldIndicatorEnabled, "Requires 'Mod Enabled & Shield Indicator Addon Enabled' to be enabled")
@@ -300,7 +287,6 @@ public class Config implements WalksyLibConfig {
             .build())
         .group(OptionGroup.createBuilder("Shield Hovering Indicator Addon Options")
             .addOption(shieldIndicatorAddonEnabledOption)
-            .addOption(shieldIndicatorFactorDelayOption)
             .addOption(shieldIndicatorAddonOption)
             .build())
         .group(OptionGroup.createBuilder("Shield Break Indicator Addon Options")

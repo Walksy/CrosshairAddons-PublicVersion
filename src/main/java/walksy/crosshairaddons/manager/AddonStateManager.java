@@ -1,5 +1,6 @@
 package walksy.crosshairaddons.manager;
 
+import main.walksy.lib.core.WalksyLib;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -16,19 +17,19 @@ import java.util.Set;
 
 public class AddonStateManager {
 
+    private boolean setup;
     private int hitmarkerTime;
     private int shieldBreakTime;
     private int hoveredEntityTime;
     private int cacheUpdateTick;
-    private final ShieldStateManager shieldStateManager;
     private final Set<EntityType<?>> cachedIndicatorEntities;
 
     public AddonStateManager() {
+        this.setup = false;
         this.hitmarkerTime = 0;
         this.shieldBreakTime = 0;
         this.hoveredEntityTime = 0;
         this.cacheUpdateTick = 0;
-        this.shieldStateManager = new ShieldStateManager(this::onShieldBreak);
         this.cachedIndicatorEntities = new HashSet<>();
     }
 
@@ -49,20 +50,11 @@ public class AddonStateManager {
 
     public void onAttackEntity(LivingEntity entity) {
         if (entity instanceof Player player) {
-            this.shieldStateManager.handlePlayerAttack(player);
             if (Config.hitmarkerToggleOnAttack) {
                 this.hitmarkerTime = Config.hitmarkerDuration;
                 Config.hitmarkerAddon.resetAnimation();
             }
         }
-    }
-
-    public void onByteStatusUpdate(Player player, byte arg) {
-        this.shieldStateManager.handleEntityStatus(player, arg);
-    }
-
-    public void handleBreakPacket(double x, double y, double z) {
-        this.shieldStateManager.handleBreakPacket(x, y, z);
     }
 
     public void onArrowHit() {
@@ -71,7 +63,10 @@ public class AddonStateManager {
     }
 
     public void tick() {
-        this.shieldStateManager.update();
+        if (!this.setup) {
+            WalksyLib.getInstance().getShieldStateManager().addDisableCallback("crosshairaddons", this::onShieldBreak);
+            this.setup = true;
+        }
         if (this.hitmarkerTime > 0) {
             this.hitmarkerTime--;
         }
@@ -94,7 +89,7 @@ public class AddonStateManager {
                 if (this.hoveredEntityTime == 1) {
                     Config.entityIndicatorAddon.resetAnimation();
                     if (client.crosshairPickEntity instanceof Player player) {
-                        if (this.shieldStateManager.isUsingShield(player, Config.shieldIndicatorFactorDelay)) {
+                        if (WalksyLib.getInstance().getShieldStateManager().isUsingShield(player)) {
                             Config.shieldIndicatorAddon.resetAnimation();
                         }
                     }
@@ -123,7 +118,7 @@ public class AddonStateManager {
                 if (!Config.shieldIndicatorEnabled) yield false;
                 Entity target = client.crosshairPickEntity;
                 if (target instanceof Player player) {
-                    yield this.shieldStateManager.isUsingShield(player, Config.shieldIndicatorFactorDelay);
+                    yield WalksyLib.getInstance().getShieldStateManager().isUsingShield(player);
                 }
                 yield false;
             }

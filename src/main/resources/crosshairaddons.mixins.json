@@ -5,10 +5,9 @@
 	"client": [
 		"MinecraftMixin",
 		"ClientPacketListenerMixin",
-      "MultiPlayerGameModeMixin",
-    "LivingEntityMixin",
+		"MultiPlayerGameModeMixin",
 		"GuiGraphicsExtractorMixin",
-    "GameRendererMixin"
+		"GameRendererMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

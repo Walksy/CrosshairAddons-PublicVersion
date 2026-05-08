@@ -15,6 +15,5 @@ public class MinecraftMixin {
     public void tick(CallbackInfo ci) {
         if (!Config.modEnabled) return;
         CrosshairAddons.getStateManager().tick();
-        Config.tick();
     }
 }
