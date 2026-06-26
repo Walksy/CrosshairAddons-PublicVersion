@@ -7,7 +7,7 @@
 		"ClientPacketListenerMixin",
 		"MultiPlayerGameModeMixin",
 		"GuiGraphicsExtractorMixin",
-		"GameRendererMixin"
+		"GuiMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

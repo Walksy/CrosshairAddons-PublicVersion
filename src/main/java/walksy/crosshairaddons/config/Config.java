@@ -1,7 +1,7 @@
 package walksy.crosshairaddons.config;
 
 import main.walksy.lib.api.WalksyLibConfig;
-import main.walksy.lib.core.config.impl.LocalConfig;
+import main.walksy.lib.core.config.impl.ModConfig;
 import main.walksy.lib.core.config.local.Category;
 import main.walksy.lib.core.config.local.Option;
 import main.walksy.lib.core.config.local.OptionDescription;
@@ -298,13 +298,13 @@ public class Config implements WalksyLibConfig {
         .build();
 
     public static boolean isEditing() {
-        return Minecraft.getInstance().screen instanceof HudEditorScreen;
+        return Minecraft.getInstance().gui.screen() instanceof HudEditorScreen;
     }
 
     @Override
-    public LocalConfig define() {
+    public ModConfig define() {
         CrosshairAddons.setupAddons();
-        return LocalConfig.createBuilder("Crosshair Addons")
+        return ModConfig.createBuilder()
                 .path(PathUtils.ofConfigDir("crosshairaddons"))
                 .onSave(CrosshairAddons.getStateManager()::updateCachedEntityTypes)
                 .category(generalCategory)
